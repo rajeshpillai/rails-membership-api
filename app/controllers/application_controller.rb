@@ -7,6 +7,20 @@ class ApplicationController < ActionController::Base
 
   private
   def validate_user! 
-    true
+    if request.headers['Authorization'].present?
+      # {'Authorization' : 'Bearer <TOKEN>'}
+      token = request.headers["Authorization"]
+      token = token.split(" ")[1]  # Remove "Bearer"
+
+      begin 
+        jwt_payload = JWT.decode(token, Rails.application.secrets.secret_key_base).first
+        @current_user_id = jwt_payload['id']
+
+      rescue => exception 
+        head :unauthorized
+      end
+    else 
+      head :unauthorized
+    end
   end
 end
