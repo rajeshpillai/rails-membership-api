@@ -15,7 +15,8 @@ class SessionsController < ApplicationController
     else 
       # flash.now[:alert] = "Email or password is invalid"
       # render "new"
-      render json: { errors: {'email or password': ["is invalid"]}}, status: :unprocessable_entity
+      render json: { errors: {'email or password': ["is invalid"]}}, 
+                    status: :unprocessable_entity
     end
   end
 
