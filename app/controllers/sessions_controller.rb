@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_action :validate_user!, except: [:create]
+
   def new
   end
 
