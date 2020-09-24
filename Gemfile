@@ -47,6 +47,11 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'jwt'  # token auth
+
+gem 'rack-cors', '~> 0.4.0'  # cross origin request
+
+
 
 
 
