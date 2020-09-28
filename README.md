@@ -1,24 +1,53 @@
-# README
+# Install Active Storage (for file upload)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+- $ rails active_storage:install
+- $ rails d:migrate
 
-Things you may want to cover:
 
-* Ruby version
+# config/environments/development.rb
 
-* System dependencies
+## Set local disk as storage
+- config.active_storage.service  = :local
+NOTE: Also refer storage.yml
 
-* Configuration
+# User model
 
-* Database creation
+- has_one_attached :profile_image
 
-* Database initialization
+# Gemfile
+- gem 'active_model_serializers'
 
-* How to run the test suite
+# Bundle
+- $ bundle install
 
-* Services (job queues, cache servers, search engines, etc.)
+# Create serializer
+rails g serializer user
 
-* Deployment instructions
+This will create a new file in app/serializers/user_serializer.rb with the following contents
 
-* ...
+```
+class UserSerializer < ActiveModel::Serializer
+ # enable building url's outside of controllers
+ include Rails.application.routes.url_helpers 
+  
+  attributes :id, :profile_image, :full_name, :email, :phone, :country,    
+        :date_of_birth
+
+
+  # We only want the URL of the image
+  def profile_image
+    if object.profile_image.attached?
+      {
+        url: rails_blob_url(object.profile_image)
+      }
+    end
+  end
+
+end
+```
+
+
+
+
+
+

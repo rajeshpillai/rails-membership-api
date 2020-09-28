@@ -1,7 +1,10 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
-  before_action :validate_user!, except: [:index, :new,:create]
+  # before_action :validate_user!, except: [:index]
+  
+  # Only for testing through browser (dev)
+  before_action :validate_user!, except: [:index, :new,:create, :edit, :update, :show]
 
   # GET /users
   # GET /users.json
@@ -9,7 +12,7 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
-  # GET /users/1
+  # GET /users/1#
   # GET /users/1.json
   def show
   end
@@ -71,6 +74,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:full_name, :email, :phone, :country, :date_of_birth, :password, :password_confirmation)
+      params.require(:user).permit(:full_name, :email, :phone, :country, :date_of_birth, :password, :password_confirmation, :profile_image)
     end
 end

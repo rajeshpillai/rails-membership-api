@@ -16,6 +16,11 @@
     <%= form.text_field :full_name %>
   </div>
 
+   <div class="field">
+    <%= form.label :profile_image %>  
+    <%= form.file_field :profile_image %>
+  </div>
+
   <div class="field">
     <%= form.label :email %>
     <%= form.text_field :email %>
@@ -33,7 +38,7 @@
 
   <div class="field">
     <%= form.label :date_of_birth %>
-    <%= form.date_select :date_of_birth %>
+    <%= form.date_select :date_of_birth, include_blank: true, start_year: Date.today.year-200, end_year: Date.today.year %>
   </div>
 
   <div class="field">

@@ -1,5 +1,12 @@
 <p id="notice"><%= notice %></p>
 
+
+ <% if @user.profile_image.attached? %>
+  <div class="card" style="width:150px">
+    <%= image_tag @user.profile_image, style: "width:100%" %>
+  </div>
+<% end %>
+
 <p>
   <strong>Full name:</strong>
   <%= @user.full_name %>
