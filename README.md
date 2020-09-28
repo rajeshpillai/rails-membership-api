@@ -14,6 +14,14 @@ NOTE: Also refer storage.yml
 
 - has_one_attached :profile_image
 
+
+<- APPRACH ONE ENDS ABOVE>
+
+
+
+
+# Alternate approach using serializer
+
 # Gemfile
 - gem 'active_model_serializers'
 
