@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :dependents
   root 'home#index'
   
   resources :users

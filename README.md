@@ -1,7 +1,7 @@
 # Install Active Storage (for file upload)
 
 - $ rails active_storage:install
-- $ rails d:migrate
+- $ rails db:migrate
 
 
 # config/environments/development.rb
