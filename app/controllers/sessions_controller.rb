@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
+  respond_to? :json
   before_action :validate_user!, except: [:create]
+
 
   def new
   end
@@ -29,6 +31,8 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil 
-    redirect_to root_url, notice: "Logged out!"
+    p "FORMAT: ", params[:format]
+    #redirect_to root_url, notice: "Logged out!" if params[:format] == "html"
+    head(:ok, status: :no_content) # if params[:format] == "json"
   end
 end
