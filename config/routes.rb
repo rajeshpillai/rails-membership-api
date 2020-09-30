@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   resources :medical_histories
+  
+  get "medical_histories/:user_id/users_with_deps", to: "medical_histories#get_self_and_dependents"
   get "medical_histories/:user_id/users", to: "medical_histories#get_for_self"
   get "medical_histories/:user_id/deps", to: "medical_histories#get_for_dependents"
 

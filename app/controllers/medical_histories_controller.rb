@@ -1,6 +1,6 @@
 class MedicalHistoriesController < ApplicationController
   before_action :set_medical_history, only: [:show, :edit, :update, :destroy]
-  before_action :validate_user!, except: [:index, :new,:create, :edit, :update, :show, :get_for_self,:get_for_dependents]
+  before_action :validate_user!, except: [:index, :new,:create, :edit, :update, :show, :get_for_self,:get_for_dependents, :get_self_and_dependents]
 
   # GET /medical_histories
   # GET /medical_histories.json
@@ -15,14 +15,26 @@ class MedicalHistoriesController < ApplicationController
 
   def get_for_self
     user_id = params[:user_id]
-    @medical_histories = MedicalHistory.where(user_id: user_id, dependent_id: nil)
+    @medical_histories = MedicalHistory
+          .where(user_id: user_id, dependent_id: nil)
+          .where("( ? BETWEEN startdate AND enddate OR ? BETWEEN startdate AND enddate)", DateTime.now.to_date, DateTime.now.next_day.to_date)
+          # .or(MedicalHistory.where("? BETWEEN startdate AND enddate", DateTime.now.next.to_date))
 
     render json: @medical_histories
   end
 
   def get_for_dependents
     user_id = params[:user_id]
-    @medical_histories = MedicalHistory.where.not(dependent_id: nil).where(user_id: user_id)
+    @medical_histories = MedicalHistory
+                .where.not(dependent_id: nil)
+                .where(user_id: user_id)
+
+    render json: @medical_histories
+  end
+
+  def get_self_and_dependents
+    user_id = params[:user_id]
+    @medical_histories = MedicalHistory.where(user_id: user_id)
 
     render json: @medical_histories
   end

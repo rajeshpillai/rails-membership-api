@@ -52,18 +52,45 @@ dep2 = Dependent.create!({
 })
 
 
+# MedicalHistory.create!({
+#   user: user1,
+#   illness: "Fever",
+#   drname: "Dr. Strange",
+#   medicine: "Paracetomol",
+#   startdate: 2.days.ago.to_date,
+#   enddate: 10.days.from_now,
+#   dosage_amount: "1 dosage",
+#   dosage_frequency: "daily-twice",
+#   dosage_time: "2pm",
+#   email_notify: true
+# })
+
 MedicalHistory.create!({
   user: user1,
   illness: "Fever",
   drname: "Dr. Strange",
   medicine: "Paracetomol",
-  startdate: DateTime.now,
-  enddate: 10.days.from_now,
+  startdate: 10.days.ago.to_date,
+  enddate: DateTime.now.prev_day.to_date,
   dosage_amount: "1 dosage",
   dosage_frequency: "daily-twice",
   dosage_time: "2pm",
   email_notify: true
 })
+
+MedicalHistory.create!({
+  user: user1,
+  illness: "Fever",
+  drname: "Dr. Strange",
+  medicine: "Paracetomol",
+  startdate: DateTime.now.next.to_date,
+  enddate: 4.days.from_now.to_date,
+  dosage_amount: "1 dosage",
+  dosage_frequency: "daily-twice",
+  dosage_time: "2pm",
+  email_notify: true
+})
+
 
 MedicalHistory.create!({
   user: user1,
@@ -92,3 +119,4 @@ MedicalHistory.create!({
   dosage_time: "2pm",
   email_notify: true
 })
+
