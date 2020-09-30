@@ -15,19 +15,65 @@ class MedicalHistoriesController < ApplicationController
 
   def get_for_self
     user_id = params[:user_id]
+
+    # @medical_histories = MedicalHistory
+    #       .where(user_id: user_id, dependent_id: nil)
+    #       .where("( ? BETWEEN startdate AND enddate OR ? BETWEEN startdate AND enddate)", DateTime.now.to_date, DateTime.now.next_day.to_date)
+    #       .order(:startdate, :asc)
+
+    # for today
     @medical_histories = MedicalHistory
           .where(user_id: user_id, dependent_id: nil)
-          .where("( ? BETWEEN startdate AND enddate OR ? BETWEEN startdate AND enddate)", DateTime.now.to_date, DateTime.now.next_day.to_date)
-          # .or(MedicalHistory.where("? BETWEEN startdate AND enddate", DateTime.now.next.to_date))
+          .where("? BETWEEN startdate AND enddate", DateTime.now.to_date)
+          .order(:startdate, :asc)
 
+    # if no records for today, then get for tomorrow
+    if @medical_histories.size == 0 
+      @medical_histories = MedicalHistory
+      .where(user_id: user_id, dependent_id: nil)
+      .where("? BETWEEN startdate AND enddate",  DateTime.now.next_day.to_date)
+      .order(:startdate, :asc) 
+    end
+    
+          
     render json: @medical_histories
   end
 
   def get_for_dependents
     user_id = params[:user_id]
-    @medical_histories = MedicalHistory
-                .where.not(dependent_id: nil)
-                .where(user_id: user_id)
+    # @medical_histories = MedicalHistory
+    #             .where.not(dependent_id: nil)
+    #             .where(user_id: user_id)
+
+    # deps = User.find(user_id).dependents
+    # p deps 
+
+    @medical_histories = [];
+
+    @medical_histories_today =  MedicalHistory
+        .where.not(dependent_id: nil)
+        .where(user_id: user_id)
+        .where("? BETWEEN startdate AND enddate", DateTime.now.to_date)
+
+        puts "******************"
+    # byebug
+
+    ids = []
+    
+    @medical_histories_today.all.map do |record|
+      ids << record.dependent_id
+    end
+
+    @medical_history_tomorrow = MedicalHistory
+      .where.not(dependent_id: nil)
+      .where(user_id: user_id)
+      .where("? BETWEEN startdate AND enddate",  DateTime.now.next_day.to_date)
+      .where("dependent_id not in (?)", ids)
+      .order(:startdate, :asc) 
+
+    @medical_history_tomorrow = @medical_history_tomorrow || []
+  
+    @medical_histories = @medical_histories_today +  @medical_history_tomorrow
 
     render json: @medical_histories
   end

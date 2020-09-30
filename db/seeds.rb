@@ -71,12 +71,28 @@ MedicalHistory.create!({
   drname: "Dr. Strange",
   medicine: "Paracetomol",
   startdate: 10.days.ago.to_date,
-  enddate: DateTime.now.prev_day.to_date,
+  # enddate: DateTime.now.prev_day.to_date,
+  enddate: DateTime.now.to_date,
   dosage_amount: "1 dosage",
   dosage_frequency: "daily-twice",
   dosage_time: "2pm",
   email_notify: true
 })
+
+MedicalHistory.create!({
+  user: user1,
+  illness: "Fever",
+  drname: "Dr. Strange",
+  medicine: "Crocin",
+  startdate: 10.days.ago.to_date,
+  # enddate: DateTime.now.prev_day.to_date,
+  enddate: DateTime.now.to_date,
+  dosage_amount: "1 dosage",
+  dosage_frequency: "daily-twice",
+  dosage_time: "2pm",
+  email_notify: true
+})
+
 
 MedicalHistory.create!({
   user: user1,
@@ -112,11 +128,24 @@ MedicalHistory.create!({
   illness: "Sore Throat",
   drname: "Dr. Superman",
   medicine: "Syrup",
-  startdate: DateTime.now,
-  enddate: 10.days.from_now,
+  startdate: 10.days.ago.to_date,
+  enddate: DateTime.now.prev_day.to_date,
   dosage_amount: "2 dosage",
   dosage_frequency: "daily-thrice",
   dosage_time: "2pm",
   email_notify: true
 })
 
+MedicalHistory.create!({
+  user: user1,
+  dependent: dep2,
+  illness: "Joint Pain",
+  drname: "Dr. Superman",
+  medicine: "Iodex",
+  startdate: DateTime.now.next.to_date,
+  enddate: 4.days.from_now.to_date,
+  dosage_amount: "2 dosage",
+  dosage_frequency: "daily-thrice",
+  dosage_time: "2pm",
+  email_notify: true
+})
