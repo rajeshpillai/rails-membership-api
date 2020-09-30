@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   resources :medical_histories
+  get "medical_histories/:user_id/users", to: "medical_histories#get_for_self"
+  get "medical_histories/:user_id/deps", to: "medical_histories#get_for_dependents"
+
   resources :dependents
   root 'home#index'
   

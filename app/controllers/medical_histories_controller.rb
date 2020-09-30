@@ -1,5 +1,6 @@
 class MedicalHistoriesController < ApplicationController
   before_action :set_medical_history, only: [:show, :edit, :update, :destroy]
+  before_action :validate_user!, except: [:index, :new,:create, :edit, :update, :show, :get_for_self,:get_for_dependents]
 
   # GET /medical_histories
   # GET /medical_histories.json
@@ -10,6 +11,20 @@ class MedicalHistoriesController < ApplicationController
   # GET /medical_histories/1
   # GET /medical_histories/1.json
   def show
+  end
+
+  def get_for_self
+    user_id = params[:user_id]
+    @medical_histories = MedicalHistory.where(user_id: user_id, dependent_id: nil)
+
+    render json: @medical_histories
+  end
+
+  def get_for_dependents
+    user_id = params[:user_id]
+    @medical_histories = MedicalHistory.where.not(dependent_id: nil).where(user_id: user_id)
+
+    render json: @medical_histories
   end
 
   # GET /medical_histories/new
