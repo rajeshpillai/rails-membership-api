@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :medical_histories
   resources :dependents
   root 'home#index'
   

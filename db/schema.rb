@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_30_104448) do
+ActiveRecord::Schema.define(version: 2020_09_30_112026) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -48,6 +48,24 @@ ActiveRecord::Schema.define(version: 2020_09_30_104448) do
     t.index ["user_id"], name: "index_dependents_on_user_id"
   end
 
+  create_table "medical_histories", force: :cascade do |t|
+    t.string "illness"
+    t.string "drname"
+    t.string "medicine"
+    t.date "startdate"
+    t.date "enddate"
+    t.string "dosage_amount"
+    t.string "dosage_frequency"
+    t.string "dosage_time"
+    t.boolean "email_notify"
+    t.integer "user_id", null: false
+    t.integer "dependent_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["dependent_id"], name: "index_medical_histories_on_dependent_id"
+    t.index ["user_id"], name: "index_medical_histories_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "full_name"
     t.string "email"
@@ -62,4 +80,6 @@ ActiveRecord::Schema.define(version: 2020_09_30_104448) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "dependents", "users"
+  add_foreign_key "medical_histories", "dependents"
+  add_foreign_key "medical_histories", "users"
 end
