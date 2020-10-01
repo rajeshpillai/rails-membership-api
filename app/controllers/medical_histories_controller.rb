@@ -78,6 +78,7 @@ class MedicalHistoriesController < ApplicationController
     render json: @medical_histories
   end
 
+  # todo
   def get_self_and_dependents
     user_id = params[:user_id]
     @medical_histories = MedicalHistory.where(user_id: user_id)

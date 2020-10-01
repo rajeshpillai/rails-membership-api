@@ -6,6 +6,12 @@ class SessionsController < ApplicationController
   def new
   end
 
+  def user 
+    user = User.find(@current_user_id)
+    render json: user.as_json(only: [:email, :id])
+          .merge("token": user.generate_jwt)
+  end
+
   def create
     p params
     p params[:email]
@@ -18,7 +24,7 @@ class SessionsController < ApplicationController
       # session[:user_id] = user.id 
       # redirect_to root_url, notice: "Logged in"
 
-      render json: user.as_json(only: [:email])
+      render json: user.as_json(only: [:email, :id])
                       .merge("token": user.generate_jwt)
 
     else 

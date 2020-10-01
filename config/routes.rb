@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   resources :users
 
   # defaults format: :json do 
-    resources :sessions, only: [:new,:create, :destroy]
+  resources :sessions, only: [:new,:create, :destroy]
+  get "sessions/user", "sessions#user"
   # end
 
   get 'signup', to: 'users#new', as: 'signup'
